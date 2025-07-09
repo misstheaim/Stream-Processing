@@ -22,6 +22,7 @@ internal class FileWorker : IDisposable
 
     public List<string> ReadTextLines()
     {
+        this._stream.Seek(0, SeekOrigin.Begin);
         using StreamReader sr = new StreamReader(this._stream);
 
         List<string> textLines = new();
@@ -41,6 +42,7 @@ internal class FileWorker : IDisposable
 
     public void WriteTextLines(List<string> textLines)
     {
+        this._stream.Seek(0, SeekOrigin.Begin);
         using StreamWriter sw = new StreamWriter(this._stream);
 
         int index = 0;

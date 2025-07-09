@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            using Logger logger = new Logger();
+            Logger logger = new();
             try
             {
                 using FileWorker inputWorker = new FileWorker("files/input.txt", logger);
@@ -20,7 +20,7 @@
             }
             catch (Exception ex)
             {
-                logger.Log($"Some exception occurred with message:\n{ex.ToString()}");
+                logger.ErrorLog($"Some exception occurred with message:\n{ex.ToString()}");
                 Console.WriteLine(ex.Message);
             }
 

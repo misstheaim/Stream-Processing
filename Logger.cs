@@ -1,28 +1,32 @@
-﻿namespace Stream_Processing;
+﻿using System.Diagnostics;
+
+namespace Stream_Processing;
 
 internal class Logger : IDisposable
 {
     private string logFilePath = "log.txt";
 
-    private FileStream logStream;
-
-    private StreamWriter logWriter;
-
     public Logger()
     {
-        logStream = File.Open(logFilePath, FileMode.OpenOrCreate);
-        logStream.Seek(0, SeekOrigin.End);
-        logWriter = new StreamWriter(logStream);
+        TextWriterTraceListener tw = new TextWriterTraceListener(File.CreateText(logFilePath));
+        Trace.Listeners.Add(tw);
+        Trace.WriteLine("Logging starting");
     }
 
     public void Log(string message)
     {
-        logWriter.WriteLine(message);
+        Trace.Indent();
+        Trace.WriteLine(message);
+        Trace.Unindent();
     }
 
+    public void ErrorLog(string message)
+    {
+        Trace.TraceError(message);
+    }
     public void Dispose()
     {
-        logWriter.Dispose();
-        logStream.Dispose();
+        Trace.WriteLine("Logging ending.");
+        Trace.Flush();
     }
 }
